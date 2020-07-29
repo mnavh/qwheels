@@ -9,10 +9,10 @@ urlpatterns=[
     path('',views.main_page, name="main_page"),
     path('main_page_html',views.main_page, name="main_page"),
     path('deals',views.deals_page, name="deals_page"),
-    path('account',views.account_page, name="account_page"),
-    path(r'^login/$', auth_views.LoginView.as_view(template_name="registration/login.html"), name='login'),
-    path(r'^logout/$', auth_views.LoginView.as_view(template_name="registration/login.html"), name='logout'),
-    path(r'^admin/', admin.site.urls),
+    # path('account',views.account_page, name="account_page"),
+    path('account', auth_views.LoginView.as_view(template_name="account.html"), name='account_page'),
+    # path('account', views.account_page, name='account_page'),
+   
     
     
 ]

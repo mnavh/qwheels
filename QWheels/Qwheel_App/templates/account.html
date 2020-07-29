@@ -1066,11 +1066,11 @@
 								<div class="card-body">
                                     <h3 class="card-title">Login</h3>
                                     {% block content %}
-									<form method="POST">
+									<form method="POST" name="login_btn">
 										<!-- <div class="form-group"> -->
                                             {% csrf_token %}
                                             {{ form.as_p }}
-                                            <button type="submit" class="btn btn-primary mt-4">Login</button>
+                                            <button type="submit" class="btn btn-primary mt-4">Login!</button>
 											<!-- <label>Email address</label>
 											<input type="email" class="form-control" placeholder="Enter email">
 										</div>
