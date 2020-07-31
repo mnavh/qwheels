@@ -5,16 +5,8 @@ from django.contrib.auth import login, authenticate
 
 # Create your views here.
 
-<<<<<<< HEAD
-list_topbar = [{"title":'Home',"link":''},{"title":'Vendors',"link":''},{"title":'Deals',"link":'deals'},{"title":'Track Order',"link":'track-order.html'},{"title":'Blog',"link":'index.html'},{"title":'Contact Us',"link":'about-us.html'},{"title":'About Us',"link":'about-us.html'}]
-
-def main_page(request):
-    print("Rendering main page...")
-    context = {
-=======
 list_topbar = [{"title":'Home',"link":'main_page_html'},{"title":'Vendors',"link":'index'},{"title":'Deals',"link":'deals'},{"title":'Track Order',"link":'track-order'},{"title":'Blog',"link":'index'},{"title":'Contact Us',"link":''},{"title":'About Us',"link":'about_us'}]
 context = {
->>>>>>> a8393c724ad8072d64b4e298f65c7b7cb75431bf
         'menu':list_topbar
     }
 def main_page(request):
@@ -25,13 +17,8 @@ def about_us_page(request):
     return render(request, 'Qwheel_App/about-us.html', context)
 
 def deals_page(request):
-<<<<<<< HEAD
-    print("Deals page")
-    return render(request, 'deals.html', {})
-=======
     print("Rendering deals")
     return render(request, 'Qwheel_App/deals.html', context)
->>>>>>> a8393c724ad8072d64b4e298f65c7b7cb75431bf
 
 def account_page(request):
     if request.method=='GET':
