@@ -1,8 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
-
+from django.contrib.auth import login, authenticate, logout
 # Create your views here.
 
 list_topbar = [{"title":'Home',"link":'main_page_html'},{"title":'Vendors',"link":'index'},{"title":'Deals',"link":'deals'},{"title":'Track Order',"link":'track-order'},{"title":'Blog',"link":'index'},{"title":'Contact Us',"link":''},{"title":'About Us',"link":'about_us'}]
@@ -11,7 +10,23 @@ context = {
     }
 def main_page(request):
     print("Rendering main page...")
-    return render(request, 'Qwheel_App/index.html', context)
+    request.session['session_id']=request.user.id
+    print(request.user.username)
+    print(request.session)
+    print(request.session.session_key)
+    print(request.user)
+    if request.user.is_authenticated:
+        print("Authenticated User")
+        username_text=request.user.username
+        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
+    
+    else:
+        print("Not Logged in")
+        username_text='Login'
+        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
+    
+
+    # return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
 
 def about_us_page(request):
     return render(request, 'Qwheel_App/about-us.html', context)
@@ -22,8 +37,10 @@ def deals_page(request):
 
 def account_page(request):
     if request.method=='GET':
+        
         print("Its a Get Requst...")
-        return render(request, 'Qwheel_App/account.html', {'form':UserCreationForm, 'form1':AuthenticationForm})
+        # print(reque)
+        return render(request, 'Qwheel_App/account.html', {'form':UserCreationForm, 'form1':AuthenticationForm, 'menu':list_topbar})
     elif request.method=='POST':
         print("its a post a request")
         print(request.POST.get('submit'))
@@ -34,7 +51,10 @@ def account_page(request):
             user=authenticate(username=username,password=password)
             print("Authentication Result : ",user)
             if user is not None:
-                return render(request, 'Qwheel_App/index.html', {})
+                login(request, user)
+                return redirect(main_page)
+                
+                # return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
             else:
                 return render(request, 'Qwheel_App/account.html', {'form':UserCreationForm, 'form1':AuthenticationForm})
 

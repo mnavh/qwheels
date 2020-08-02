@@ -419,11 +419,7 @@
                     
                     <div class="site-header__middle container">
                         <div class="site-header__logo">
-                            
-                                <img width=140 length=200 src=".\images\logos\wheel.jpg" alt="">
-                                
-                                
-                            
+                                <img width=140 length=200 src=".\static\images\logos\wheel.jpg" alt="">            
                         </div>
                         <div class="site-header__search">
                             <div class="search">
@@ -435,10 +431,33 @@
                                     <div class="search__border"></div>
                                 </form>
                             </div>
+                        
+                        
                         </div>
                         <div class="site-header__phone">
-                            <div class="site-header__phone-title">Customer Service</div>
-                            <div class="site-header__phone-number">(800) 060-0730</div>
+                            <!-- <i class="far fa-user"></i> -->
+                            {% block content %}
+                                <!-- <button  href="#" class="btn btn-primary mt-4" style="border-radius: 45px;background-color: #FFD333;"> -->
+                                <!-- <button type="submit" value="login" name="submit" class="btn btn-primary mt-4" style="border-radius: 5px;">
+                                  <span class="far fa-user"></span> {{username}}
+                                </button> -->
+                                <!-- <a type="submit" value="login" name="submit" class="btn btn-primary mt-4" style="border-radius: 5px;">
+                                    <span class="far fa-user"></span> {{username}}
+                                </a> -->
+                                <div class="dropdown">
+                                    <button class="btn btn-primary mt-4" style="border-radius: 5px;">
+                                        <span class="far fa-user"></span> {{username}}
+                                      <i class="fa fa-caret-down"></i>
+                                    </button>
+                                    <div class="dropdown-content">
+                                      <a href="#">Link 1</a>
+                                      <a href="#">Link 2</a>
+                                      <a href="#">Link 3</a>
+                                    </div>
+                                </div> 
+                        
+                            {% endblock %}
+                             
                         </div>
                     </div>
                     <div class="site-header__nav-panel">
