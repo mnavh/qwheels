@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="./static/vendor/bootstrap-4.2.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="./static/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css" />
         <link rel="stylesheet" href="./static/css/style.css" />
+        
         <!-- js -->
         <script src="./static/vendor/jquery-3.3.1/jquery.min.js"></script>
         <script src="./static/vendor/bootstrap-4.2.1/js/bootstrap.bundle.min.js"></script>
@@ -444,17 +445,24 @@
                                 <!-- <a type="submit" value="login" name="submit" class="btn btn-primary mt-4" style="border-radius: 5px;">
                                     <span class="far fa-user"></span> {{username}}
                                 </a> -->
+                                <!-- onclick="location.href='{{hlink}}'" -->
+                                <!-- <a href="{{hyperlink}}"> -->
                                 <div class="dropdown">
-                                    <button class="btn btn-primary mt-4" style="border-radius: 5px;">
+                                    <button onclick="location.href='{{hlink}}'" class="btn btn-primary mt-4" style="border-radius: 5px;">
                                         <span class="far fa-user"></span> {{username}}
                                       <i class="fa fa-caret-down"></i>
                                     </button>
                                     <div class="dropdown-content">
-                                      <a href="#">Link 1</a>
-                                      <a href="#">Link 2</a>
-                                      <a href="#">Link 3</a>
+                                        {% for cont in logindrpdwn %}
+                                        
+                                            <a href={{cont.link}}>{{cont.content}}</a>
+                                        {% endfor %}
+                                      <!-- <a href="#">My Account</a>
+                                      <a href="#">Logout</a> -->
+                                     
                                     </div>
-                                </div> 
+                                </div>
+                                <!-- </a> -->
                         
                             {% endblock %}
                              

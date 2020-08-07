@@ -11,19 +11,21 @@ context = {
 def main_page(request):
     print("Rendering main page...")
     request.session['session_id']=request.user.id
-    print(request.user.username)
-    print(request.session)
+    print(request.session['session_id'])
     print(request.session.session_key)
     print(request.user)
     if request.user.is_authenticated:
         print("Authenticated User")
         username_text=request.user.username
-        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
+        hyperlink=''
+        # 'logindrpdwn':[['My Account','Log Out']
+        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text, 'logindrpdwn':[{'content':'My Account', 'link':''},{'content':'Log Out', 'link':'log_out'}] ,'hlink':hyperlink})
     
     else:
         print("Not Logged in")
         username_text='Login'
-        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
+        hyperlink='account'
+        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text, 'hlink':hyperlink})
     
 
     # return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
@@ -73,6 +75,17 @@ def account_page(request):
         #     return render(request, 'index.html', {})
         # else:
         #     pass
+
+def log_out(request):
+    print("logging out...")
+    if request.method=='GET':
+        request.session['session_id']=request.user.id
+        del request.session['session_id']
+        logout(request)
+        
+    return redirect(main_page)
+    
+
 
 
 
