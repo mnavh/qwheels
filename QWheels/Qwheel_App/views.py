@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
+from .forms import add_vendor, add_product
+from django.contrib import messages
+import pdb
 
 # Create your views here.
 
@@ -54,6 +57,37 @@ def account_page(request):
         # else:
         #     pass
 
+def addvendor(request):
+    if request.method == 'POST':
+        form = add_vendor(request.POST or None, request.FILES or None)
+        # check whether it's valid:
+        if form.is_valid():
+            form.save()
+            print("saved vendor!")
+        else:
+            messages.error(request, "Error")
+            
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = add_vendor()
+        # pdb.set_trace()
+
+    return render(request, 'Qwheel_App/add-vendor.html', {'form': form})
 
 
+def addproduct(request):
+    if request.method == 'POST':
+        form = add_product(request.POST or None, request.FILES or None)
+        # check whether it's valid:
+        if form.is_valid():
+            form.save()
+            print("saved product!")
+        else:
+            messages.error(request, "Error")
+            
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = add_product()
+
+    return render(request, 'Qwheel_App/add-product.html', {'form': form})
 
