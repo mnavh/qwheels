@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
@@ -6,6 +6,7 @@ from .forms import add_vendor, add_product
 from django.contrib import messages
 import pdb
 
+from django.contrib.auth import login, authenticate, logout
 # Create your views here.
 
 list_topbar = [{"title":'Home',"link":'main_page_html'},{"title":'Vendors',"link":'index'},{"title":'Deals',"link":'deals'},{"title":'Track Order',"link":'track-order'},{"title":'Blog',"link":'index'},{"title":'Contact Us',"link":''},{"title":'About Us',"link":'about_us'}]
@@ -14,7 +15,25 @@ context = {
     }
 def main_page(request):
     print("Rendering main page...")
-    return render(request, 'Qwheel_App/index.html', context)
+    request.session['session_id']=request.user.id
+    print(request.session['session_id'])
+    print(request.session.session_key)
+    print(request.user)
+    if request.user.is_authenticated:
+        print("Authenticated User")
+        username_text=request.user.username
+        hyperlink=''
+        # 'logindrpdwn':[['My Account','Log Out']
+        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text, 'logindrpdwn':[{'content':'My Account', 'link':''},{'content':'Log Out', 'link':'log_out'}] ,'hlink':hyperlink})
+    
+    else:
+        print("Not Logged in")
+        username_text='Login'
+        hyperlink='account'
+        return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text, 'hlink':hyperlink})
+    
+
+    # return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
 
 def about_us_page(request):
     return render(request, 'Qwheel_App/about-us.html', context)
@@ -25,8 +44,10 @@ def deals_page(request):
 
 def account_page(request):
     if request.method=='GET':
+        
         print("Its a Get Requst...")
-        return render(request, 'Qwheel_App/account.html', {'form':UserCreationForm, 'form1':AuthenticationForm})
+        # print(reque)
+        return render(request, 'Qwheel_App/account.html', {'form':UserCreationForm, 'form1':AuthenticationForm, 'menu':list_topbar})
     elif request.method=='POST':
         print("its a post a request")
         print(request.POST.get('submit'))
@@ -37,7 +58,10 @@ def account_page(request):
             user=authenticate(username=username,password=password)
             print("Authentication Result : ",user)
             if user is not None:
-                return render(request, 'Qwheel_App/index.html', {})
+                login(request, user)
+                return redirect(main_page)
+                
+                # return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
             else:
                 return render(request, 'Qwheel_App/account.html', {'form':UserCreationForm, 'form1':AuthenticationForm})
 
@@ -71,6 +95,17 @@ def addvendor(request):
     else:
         form = add_vendor()
         pdb.set_trace()
+def log_out(request):
+    print("logging out...")
+    if request.method=='GET':
+        request.session['session_id']=request.user.id
+        del request.session['session_id']
+        logout(request)
+        
+    return redirect(main_page)
+    
+
+
 
     return render(request, 'Qwheel_App/add-vendor.html', {'form': form})
 
