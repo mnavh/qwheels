@@ -70,7 +70,7 @@ def addvendor(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = add_vendor()
-        # pdb.set_trace()
+        pdb.set_trace()
 
     return render(request, 'Qwheel_App/add-vendor.html', {'form': form})
 
