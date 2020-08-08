@@ -94,7 +94,10 @@ def addvendor(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = add_vendor()
-        pdb.set_trace()
+        # pdb.set_trace()
+
+    return render(request, 'Qwheel_App/add-vendor.html', {'form': form})
+
 def log_out(request):
     print("logging out...")
     if request.method=='GET':
@@ -107,7 +110,7 @@ def log_out(request):
 
 
 
-    return render(request, 'Qwheel_App/add-vendor.html', {'form': form})
+    
 
 
 def addproduct(request):
