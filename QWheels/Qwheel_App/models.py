@@ -30,10 +30,13 @@ class product(models.Model):
     brand = models.CharField(max_length=25, blank=True, null=True)
     sku = models.CharField(max_length=25,blank=True, null=True)
     availability = models.BooleanField(default=True,blank=True, null=True)
-
-# class product(models.Model):
-#     vendor = models.ForeignKey(vendor, on_delete=models.CASCADE)
-#     category = models.CharField(max_length=25, blank=True, null=True)
-
+    
     def __str__(self):
         return self.name
+
+class product_img(models.Model):
+    product = models.ForeignKey(product, on_delete=models.CASCADE)
+    image = models.ImageField(blank=True, null=True)
+
+    def __str__(self):
+        return self.product

@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from .forms import add_vendor, add_product
+from .forms import add_vendor, add_product, add_product_img
+from .models import product_img
+from django.forms import modelformset_factory
 from django.contrib import messages
 import pdb
 
@@ -107,25 +109,31 @@ def log_out(request):
         
     return redirect(main_page)
     
-
-
-
-    
-
-
 def addproduct(request):
+    
+    ImageFormSet = modelformset_factory(product_img,form=add_product_img, extra=5)
     if request.method == 'POST':
-        form = add_product(request.POST or None, request.FILES or None)
+        postForm = add_product(request.POST)
+        formset = ImageFormSet(request.POST, request.FILES, queryset=product_img.objects.none())
         # check whether it's valid:
-        if form.is_valid():
-            form.save()
+        if postForm.is_valid() and formset.is_valid():
+            post_form = postForm.save(commit=False)
+            post_form.user = 'Tester'
+            post_form.save()
             print("saved product!")
+            
+            for form in formset.cleaned_data:
+                if form:
+                    image = form['image']
+                    photo = product_img(product=post_form, image=image)
+                    photo.save()
         else:
-            messages.error(request, "Error")
+            print(postForm.errors, formset.errors)
             
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = add_product()
+        postForm = add_product()
+        formset = ImageFormSet(queryset=product_img.objects.none())
 
-    return render(request, 'Qwheel_App/add-product.html', {'form': form})
+    return render(request, 'Qwheel_App/add-product.html', {'postForm': postForm, 'formset': formset})
 

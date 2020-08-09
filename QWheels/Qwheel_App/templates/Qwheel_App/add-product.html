@@ -73,7 +73,7 @@
 						<div class="mobile-links__item-sub-links" data-collapse-content>
 							<ul class="mobile-links mobile-links--level--1">
 								<li class="mobile-links__item" data-collapse-item>
-									<div class="mobile-links__item-title"><a href="index.html" class="mobile-links__item-link">Home 1</a></div>
+									<div class="mobile-links__item-titlef"><a href="index.html" class="mobile-links__item-link">Home 1</a></div>
 								</li>
 								<li class="mobile-links__item" data-collapse-item>
 									<div class="mobile-links__item-title"><a href="index-2.html" class="mobile-links__item-link">Home 2</a></div>
@@ -942,10 +942,23 @@
 							<div class="card flex-grow-1 mb-md-0">
 								<div class="card-body">
                                     {% block content %}
-									<form method="post" enctype="multipart/form-data">
+									<form id="post_form" method="post" action="" enctype="multipart/form-data">
 										<!-- <div class="form-group"> -->
                                             {% csrf_token %}
-                                            {{ form.as_p }}
+                                            {% for hidden in postForm.hidden_fields %}
+												{{ hidden }}
+											{% endfor %}
+
+											{% for field in postForm %}
+												{{ field }} <br />
+											{% endfor %}
+
+																					
+											{{ formset.management_form }}
+											{% for form in formset %}
+												{{ form }}
+											{% endfor %}
+
                                             <button type="submit" value="login" name="submit" class="btn btn-primary mt-4">Submit</button>
 											
                                     </form>
