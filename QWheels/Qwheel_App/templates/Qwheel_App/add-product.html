@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -942,23 +943,11 @@
 							<div class="card flex-grow-1 mb-md-0">
 								<div class="card-body">
                                     {% block content %}
-									<form id="post_form" method="post" action="" enctype="multipart/form-data">
+									<form method="post" enctype="multipart/form-data">
 										<!-- <div class="form-group"> -->
                                             {% csrf_token %}
-                                            {% for hidden in postForm.hidden_fields %}
-												{{ hidden }}
-											{% endfor %}
-
-											{% for field in postForm %}
-												{{ field }} <br />
-											{% endfor %}
-
-																					
-											{{ formset.management_form }}
-											{% for form in formset %}
-												{{ form }}
-											{% endfor %}
-
+                                            {{ form|crispy }}
+											{{ formset|crispy }}
                                             <button type="submit" value="login" name="submit" class="btn btn-primary mt-4">Submit</button>
 											
                                     </form>
