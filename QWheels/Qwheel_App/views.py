@@ -88,7 +88,9 @@ def addvendor(request):
         form = add_vendor(request.POST or None, request.FILES or None)
         # check whether it's valid:
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
             print("saved vendor!")
         else:
             messages.error(request, "Error")
@@ -118,8 +120,9 @@ def addproduct(request):
         # check whether it's valid:
         if details.is_valid() and pics.is_valid():
             details_object = details.save(commit=False)
+            details_object.user = request.user
             details_object.save()
-            
+                        
             for pic in pics.cleaned_data:
                 if pic:
                     image = pic['image']

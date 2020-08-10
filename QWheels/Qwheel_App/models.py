@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Categories = (
 #     ('S', 'Stripe'),
@@ -9,6 +9,7 @@ from django.db import models
 
 # Create your models here.
 class vendor(models.Model):
+    user = models.ForeignKey(User, default = 1, on_delete=models.CASCADE)
     name = models.CharField(max_length=25, blank=True, null=True)
     description = models.CharField(max_length=25, blank=True, null=True)
     logo = models.ImageField(blank=True, null=True)
@@ -20,7 +21,8 @@ class vendor(models.Model):
         return self.name
 
 class product(models.Model):
-    vendor = models.ForeignKey(vendor, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, default = 1, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(vendor, on_delete=models.CASCADE, blank=True, null=True)
     category = models.CharField(max_length=25, blank=True, null=True)
     subcategory = models.CharField(max_length=25, blank=True, null=True)
     name = models.CharField(max_length=25, blank=True, null=True)
@@ -35,7 +37,7 @@ class product(models.Model):
         return self.name
 
 class product_img(models.Model):
-    product = models.ForeignKey(product, on_delete=models.CASCADE)
+    product = models.ForeignKey(product, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
 
     def __str__(self):
