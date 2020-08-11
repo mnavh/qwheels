@@ -38,7 +38,7 @@ def main_page(request):
     # return render(request, 'Qwheel_App/index.html', {'menu':list_topbar, 'username':username_text})
 
 def about_us_page(request):
-    return render(request, 'Qwheel_App/about-us.html', context)
+    return render(request, 'Qwheel_App/base.html', context)
 
 def deals_page(request):
     print("Rendering deals")
@@ -112,30 +112,64 @@ def log_out(request):
     return redirect(main_page)
     
 def addproduct(request):
-    
+    request.session['session_id']=request.user.id
     ImageFormSet = modelformset_factory(product_img,form=add_product_img, extra=5)
-    if request.method == 'POST':
-        details = add_product(request.POST)
-        pics = ImageFormSet(request.POST, request.FILES, queryset=product_img.objects.none())
-        # check whether it's valid:
-        if details.is_valid() and pics.is_valid():
-            details_object = details.save(commit=False)
-            details_object.user = request.user
-            details_object.save()
-                        
-            for pic in pics.cleaned_data:
-                if pic:
-                    image = pic['image']
-                    # pdb.set_trace()
-                    photo = product_img(product=details_object, image=image)
-                    photo.save()
+    if request.user.is_authenticated:
+        username_text=request.user.username
+        hyperlink=''
+    
+        if request.method == 'POST':
+            details = add_product(request.POST)
+            pics = ImageFormSet(request.POST, request.FILES, queryset=product_img.objects.none())
+            # check whether it's valid:
+            if details.is_valid() and pics.is_valid():
+                details_object = details.save(commit=False)
+                details_object.user = request.user
+                details_object.save()
+                            
+                for pic in pics.cleaned_data:
+                    if pic:
+                        image = pic['image']
+                        # pdb.set_trace()
+                        photo = product_img(product=details_object, image=image)
+                        photo.save()
+            else:
+                print(details.errors, pics.errors)
+                
+        # if a GET (or any other method) we'll create a blank form
         else:
-            print(details.errors, pics.errors)
-            
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        details = add_product()
-        pics = ImageFormSet(queryset=product_img.objects.none())
+            details = add_product()
+            pics = ImageFormSet(queryset=product_img.objects.none())
 
-    return render(request, 'Qwheel_App/add-product.html', {'form': details,'formset':pics})
+        return render(request, 'Qwheel_App/add-product.html', {'form': details,'formset':pics,'menu':list_topbar, 'username':username_text, 'logindrpdwn':[{'content':'My Account', 'link':''},{'content':'Log Out', 'link':'log_out'}] ,'hlink':hyperlink})
+        
+    else:
+        username_text='Login'
+        hyperlink='account'
+        if request.method == 'POST':
+            details = add_product(request.POST)
+            pics = ImageFormSet(request.POST, request.FILES, queryset=product_img.objects.none())
+            # check whether it's valid:
+            if details.is_valid() and pics.is_valid():
+                details_object = details.save(commit=False)
+                details_object.user = request.user
+                details_object.save()
+                            
+                for pic in pics.cleaned_data:
+                    if pic:
+                        image = pic['image']
+                        # pdb.set_trace()
+                        photo = product_img(product=details_object, image=image)
+                        photo.save()
+            else:
+                print(details.errors, pics.errors)
+                
+        # if a GET (or any other method) we'll create a blank form
+        else:
+            details = add_product()
+            pics = ImageFormSet(queryset=product_img.objects.none())
+
+        return render(request, 'Qwheel_App/add-product.html', {'form': details,'formset':pics,'menu':list_topbar, 'username':username_text, 'hlink':hyperlink})
+        
+
     # return render(request, 'Qwheel_App/add-product.html', {'postForm': postForm, 'formset': formset})
