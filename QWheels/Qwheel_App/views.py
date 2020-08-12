@@ -90,8 +90,10 @@ def addvendor(request):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
+            print(instance.description)
             instance.save()
             print("saved vendor!")
+            pdb.set_trace()
         else:
             messages.error(request, "Error")
             
@@ -104,6 +106,7 @@ def addvendor(request):
 
 def log_out(request):
     print("logging out...")
+
     if request.method=='GET':
         request.session['session_id']=request.user.id
         del request.session['session_id']

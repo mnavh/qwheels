@@ -12,7 +12,7 @@ urlpatterns=[
     path('about_us',views.about_us_page, name="about_us"),
     path("add_vendor",views.addvendor,name="add_vendor"),
     path("add_product",views.addproduct,name="add_product"),
-    path('log_out', views.log_out, name='log_out'),
+    path('log_out/', views.log_out, name='log_out'),
     
     # path('account',views.account_page, name="account_page"),
     # path('account', auth_views.LoginView.as_view(template_name="account.html"), name='account_page'),
