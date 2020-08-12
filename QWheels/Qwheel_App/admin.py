@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import vendor, product
-# Register your models here.
+from django.contrib.auth.admin import UserAdmin
+from .models import vendor, product, User
 
+# Register your models here.
+admin.site.register(User, UserAdmin)
 admin.site.register(vendor)
+admin.site.register(product)

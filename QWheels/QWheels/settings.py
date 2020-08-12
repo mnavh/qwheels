@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.10.10']
 
+AUTH_USER_MODEL = 'Qwheel_App.User'
 
 # Application definition
 
