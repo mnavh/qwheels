@@ -10617,3 +10617,9 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.vendor-form-class {
+  margin: auto;
+  padding: 0px;
+
+}
