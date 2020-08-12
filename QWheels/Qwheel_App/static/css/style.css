@@ -10618,8 +10618,26 @@
   display: block;
 }
 
-.vendor-form-class {
+.product-form-class {
+  display: flex;
   margin: auto;
-  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 40px;
+  align-self: center;
+  align-items: center;
+  width: 60%;
+  border: 2px solid #f0f0f0;
+  justify-content: center;
 
+}
+
+.product-form-class select, input{
+  width: 430px;
+  text-transform: none;
+}
+
+.product-form-class button{
+  width: 430px;
+  text-transform: none;
 }
