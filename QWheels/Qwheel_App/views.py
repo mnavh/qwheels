@@ -84,23 +84,52 @@ def account_page(request):
         #     pass
 
 def addvendor(request):
+    request.session['session_id']=request.user.id
+    if request.user.is_authenticated:
+        username_text=request.user.username
+        hyperlink=''
+        
+    else:
+        username_text='Login'
+        hyperlink='account'
+
     if request.method == 'POST':
         form = add_vendor(request.POST or None, request.FILES or None)
         # check whether it's valid:
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            print(instance.description)
-            instance.save()
-            print("saved vendor!")
             pdb.set_trace()
+            details_vendor = form.save(commit=False)
+            details_vendor.username = request.user.id
+            details_vendor.save()
+
         else:
-            messages.error(request, "Error")
-            
-    # if a GET (or any other method) we'll create a blank form
+            print(form.errors)
+                
+        # if a GET (or any other method) we'll create a blank form
     else:
         form = add_vendor()
-        # pdb.set_trace()
+        
+    return render(request, 'Qwheel_App/add-vendor.html', {'form': form,'menu':list_topbar, 'username':username_text, 'logindrpdwn':[{'content':'My Account', 'link':''},{'content':'Log Out', 'link':'log_out'}] ,'hlink':hyperlink})
+    
+
+
+    # if request.method == 'POST':
+    #     form = add_vendor(request.POST or None, request.FILES or None)
+    #     # check whether it's valid:
+    #     if form.is_valid():
+    #         instance = form.save(commit=False)
+    #         instance.user = request.user
+    #         print(instance.description)
+    #         instance.save()
+    #         print("saved vendor!")
+    #         pdb.set_trace()
+    #     else:
+    #         messages.error(request, "Error")
+            
+    # # if a GET (or any other method) we'll create a blank form
+    # else:
+    #     form = add_vendor()
+    #     # pdb.set_trace()
 
     return render(request, 'Qwheel_App/add-vendor.html', {'form': form})
 
