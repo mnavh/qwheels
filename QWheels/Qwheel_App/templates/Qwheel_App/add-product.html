@@ -1,0 +1,16 @@
+{% extends "Qwheel_App/base.html" %}
+{% load crispy_forms_tags %}
+
+
+                                    {% block content %}
+
+                                    
+									<form method="post" enctype="multipart/form-data">
+										<!-- <div class="form-group"> -->
+                                            {% csrf_token %}
+                                            {{ form|crispy }}
+											{{ formset|crispy }}
+                                            <button type="submit" value="login" name="submit" class="btn btn-primary mt-4">Submit</button>
+											
+                                    </form>
+									{% endblock %}
