@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.10.10']
 
-AUTH_USER_MODEL = 'Qwheel_App.User'
+AUTH_USER_MODEL = 'QWheels_Admin.User'
 
 # Application definition
 
@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    'Qwheel_App',
+    'QWheels_Admin',
+    'QWheels_User',
+    'QWheels_Vendor',    
 ]
 
 MIDDLEWARE = [
